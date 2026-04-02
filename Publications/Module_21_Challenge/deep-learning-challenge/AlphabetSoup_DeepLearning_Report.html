@@ -1,0 +1,54 @@
+<h1>Deep Learning Challenge Report: Predicting Alphabet Soup Success</h1>
+<h2><strong>1. Overview of the Analysis</strong></h2>
+<p>Alphabet Soup is a nonprofit foundation that provides funding to organizations. The goal of this project is to build a deep learning model that predicts whether an applicant will successfully use the funding provided by Alphabet Soup. </p>
+<p>I use <strong>machine learning and neural networks</strong> to classify funding applicants based on historical data. The dataset contains over <strong>34,000</strong> organizations and includes categorical and numerical features related to the applicants.</p>
+<hr />
+<h2><strong>2. Data Preprocessing</strong></h2>
+<p>To prepare the dataset for training, the following steps were performed:</p>
+<ul>
+<li><strong>Loaded the dataset</strong> and explored its structure.</li>
+<li><strong>Dropped unnecessary columns:</strong> The <code>EIN</code> and <code>NAME</code> columns, as they do not contribute to the prediction.</li>
+<li><strong>Categorical Encoding:</strong></li>
+<li>Replaced rare categories (less than a certain threshold) in <code>APPLICATION_TYPE</code> and <code>CLASSIFICATION</code> with "Other."</li>
+<li>Applied <strong>one-hot encoding</strong> to categorical variables.</li>
+<li><strong>Feature Selection:</strong></li>
+<li>Extracted features (<code>X</code>) and target variable (<code>y</code>).</li>
+<li>Split the dataset into <strong>training (75%)</strong> and <strong>testing (25%)</strong> sets.</li>
+<li><strong>Feature Scaling:</strong></li>
+<li>Used <strong>StandardScaler</strong> to normalize numerical values.</li>
+</ul>
+<hr />
+<h2><strong>3. Model Architecture and Accuracy</strong></h2>
+<p>We implemented a <strong>deep neural network (DNN)</strong> using TensorFlow and Keras. The model structure is as follows:</p>
+<ul>
+<li><strong>Input Layer:</strong> <code>43</code> features</li>
+<li><strong>Hidden Layer 1:</strong> 80 neurons, <strong>ReLU</strong> activation</li>
+<li><strong>Hidden Layer 2:</strong> 30 neurons, <strong>ReLU</strong> activation</li>
+<li><strong>Output Layer:</strong> 1 neuron, <strong>Sigmoid</strong> activation</li>
+</ul>
+<h3><strong>Model Training Results</strong></h3>
+<p>After training the model for <strong>100 epochs</strong>, we obtained the following results:</p>
+<ul>
+<li><strong>Loss:</strong> 0.5569</li>
+<li><strong>Accuracy:</strong> 72.47%</li>
+</ul>
+<hr />
+<h2><strong>4. Optimization Attempts</strong></h2>
+<p>To improve model performance beyond <strong>75% accuracy</strong>, we made the following modifications:</p>
+<ol>
+<li><strong>Increased the number of neurons per layer</strong> (from 80 → 100, 30 → 50).</li>
+<li><strong>Added an additional hidden layer</strong> to improve feature extraction.</li>
+<li><strong>Tried different activation functions</strong> (ReLU, Sigmoid, Tanh).</li>
+<li><strong>Extended training epochs</strong> from 100 to 150.</li>
+</ol>
+<p>The best-performing model achieved an accuracy of <strong>72.47%</strong>, which is &lt; 75%.</p>
+<hr />
+<h2><strong>5. Conclusion</strong></h2>
+<ul>
+<li>The final model provides a reasonable prediction accuracy of <strong>72.47%</strong>.</li>
+<li>Further improvements can be made by:</li>
+<li>Experimenting with <strong>hyperparameter tuning</strong>.</li>
+<li>Using <strong>dropout layers</strong> to prevent overfitting.</li>
+<li>Exploring different <strong>machine learning models (e.g., Random Forest, XGBoost)</strong> as alternatives to deep learning.</li>
+</ul>
+<p>The deep learning approach demonstrates <strong>strong potential</strong> for predicting successful funding applicants for Alphabet Soup. 🚀</p>
