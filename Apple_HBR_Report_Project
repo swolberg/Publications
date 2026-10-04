@@ -1,0 +1,68 @@
+Apple HBR Report Document Q&A
+A retrieval-augmented generation (RAG) prototype that answers questions about the Harvard Business Review article "How Apple Is Organized for Innovation" (Podolny and Hansen, November–December 2020). It was built for the Agentic AI Foundations course by Sarah Wolberg.
+
+Problem
+Analysts spend a lot of time searching long reports for answers. This project tests whether a RAG pipeline can return correct, cited answers to plain-language questions, without reading the whole report.
+
+Questions tested
+Who are the authors of this article and who published it?
+List the three leadership characteristics in bullets and explain each in two lines.
+Explain specific examples from the article where Apple's approach to leadership led to successful innovations.
+Approach
+The same questions were asked three ways, all with gpt-4o-mini. Each step changed one thing.
+
+Step	What changed	Key settings
+Baseline LLM	Question only, no document	temperature 0.7, max_tokens 500, top_p 1.0
+Prompt engineering	Added a system prompt	temperature 0.2, max_tokens 500, top_p 1.0
+RAG	Added the four closest article chunks	k = 4, temperature 0, max_tokens 500, top_p 0.95
+RAG pipeline
+
+Loader: PyMuPDFLoader (11 pages)
+Splitter: RecursiveCharacterTextSplitter.from_tiktoken_encoder, cl100k_base, chunk_size 700, chunk_overlap 100 (18 chunks)
+Embeddings: text-embedding-ada-002 (1,536 dimensions)
+Vector database: Chroma
+Retriever: similarity search, k = 4
+Answers include the PDF page they came from
+Results
+Question	Baseline	Prompt engineering	RAG
+Q1 authors	Refused to answer	Named the wrong authors	Podolny and Hansen, HBR (page 3)
+Q2 characteristics	Vision, empathy, decisiveness	Visionary thinking, collaboration, decisive action	Deep expertise, immersion in details, collaborative debate (page 6)
+Q3 examples	Well-known products from memory	iPhone, Apple Watch, iPad; no source	Rosner, Townsend and the discretionary leadership model (pages 7 and 10)
+Only RAG matched the article on all three questions and cited its pages. Prompt engineering improved the format but not the facts.
+
+Limitations
+Retrieval quality limits answer quality. For Q2, the four retrieved chunks were two pairs of duplicates.
+The dual-lens camera example (page 6) was not returned for Q3.
+The article's figures end in 2019, so answers reflect that date.
+Only one document was indexed.
+Next steps
+Test agentic RAG against the same questions and criteria.
+Add metadata (title, author, date, section) and filter on it.
+Test deduplication, MMR, reranking and different values of k.
+Keep source documents current, and re-index on a schedule.
+Files
+[notebook-name].ipynb: the commented notebook
+[presentation-name].pptx: the slide deck
+README.md: this file
+The source article is not included in this repository. See "Data" below.
+
+Data
+"How Apple Is Organized for Innovation" is an HBR reprint (R2006F), provided for personal use only, so it is not redistributed here. Obtain your own copy and update the path in the notebook:
+
+pdf_path = "/content/drive/MyDrive/Apple HBR Report Project/HBR_How_Apple_Is_Organized_For_Innovation.pdf"
+Setup
+Library versions used:
+
+langchain==0.3.27 langchain_community==0.3.27 chromadb==1.0.15 pymupdf==1.26.3 tiktoken==0.9.0 datasets==4.0.0 evaluate==0.4.5 langchain_openai==0.3.30
+Create a config.json in the project folder:
+
+{ "OPENAI_API_KEY": "your_key_here", "OPENAI_API_BASE": "https://api.openai.com/v1" }
+Then run the notebook cells in order.
+
+Before you upload
+
+API key: never commit config.json. Add this to a .gitignore file in the repo: config.json apple_hbr_chroma_db/
+Notebook output: clear any saved output that shows your key. Your notebook prompts for it with getpass, but check the saved file.
+PDF: leave it out of a public repo. The README already says why.
+Placeholders: replace the two file names in "Files".
+Requirements file: if you'd rather use a requirements.txt, the version block under "Setup" works as its contents.
